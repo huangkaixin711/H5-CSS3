@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    ul,
+    li,
+    a {
+        list-style: none;
+    }
+    
+    #web {
+        width: 600px;
+        height: 230px;
+        margin: 0 auto;
+    }
+    
+    #le1 {
+        color: red;
+        font-size: 30px;
+        font-weight: bold;
+    }
+    
+    .skin {
+        position: relative;
+        width: 600px;
+        height: 50px;
+        border: 1px solid black;
+        margin-top: 5%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .skin li {
+        display: inline-block;
+        margin-top: 15px;
+        height: 20px;
+        width: 20px;
+        margin-right: 1%;
+    }
+    
+    .sign {
+        margin-top: -35px;
+    }
+    
+    .sign li {
+        height: 15px;
+        border: 1px solid;
+        display: inline-block;
+        opacity: 0;
+        margin-right: 0.5%;
+        font-size: 10px;
+    }
+    
+    #sign0 {
+        opacity: 0.9;
+    }
+    
+    #text1 {
+        width: 550px;
+        height: 60px;
+        margin-left: 25px;
+        margin: 0 auto;
+        background-color: #999999;
+    }
+</style>
+
+<body>
+    <fieldset id="web">
+        <legend id="le1" class="le1">网页换肤</legend>
+        <ul class="skin">
+            <li class="skin0" id="skin1" title="灰色" style="background-color: #999999;  position: relative; top:-10px; margin-left: -20px;"></li>
+            <li class="skin0" title="紫色" style="background-color: #9966FF;  position: relative;"></li>
+            <li class="skin0" title="粉色" style="background-color: #FFCCFF;  position: relative;"></li>
+            <li class="skin0" title="天蓝色" style="background-color: #66FFFF;  position: relative;"></li>
+            <li class="skin0" title="黄色" style="background-color: #FFFF00;  position: relative;"></li>
+            <li class="skin0" title="浅绿色" style="background-color: #00FF00;  position: relative;"></li>
+        </ul>
+        <ul class="sign">
+            <li class="sign1" id="sign0">灰色</li>
+            <li class="sign1">紫色</li>
+            <li class="sign1">粉色</li>
+            <li class="sign1">天蓝色</li>
+            <li class="sign1">黄色</li>
+            <li class="sign1">浅绿色</li>
+        </ul>
+        <div id="text1">
+            LocalStorage将数据保存在客户端本地的硬件设备中，即使浏览器被关闭了，该数据仍然存在，下次打开浏览器访问网站时仍然可以继续使用。
+        </div>
+    </fieldset>
+</body>
+<script>
+    var text1 = document.getElementById("text1");
+    var skins = document.getElementsByClassName("skin0");
+    var lis = document.getElementsByClassName("sign1");
+    for (var k = 0; k < skins.length; k++) {
+        skins[k].style.top = localStorage.getItem("s" + k);
+    }
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].style.opacity = localStorage.getItem('l' + i);
+    }
+    text1.style.backgroundColor = localStorage.getItem("bgc");
+
+    //为每个li添加onclick事件      
+    function changeColor(m) {
+        skins[m].onclick = function() {
+            for (var j = 0; j < skins.length; j++) {
+                if (m == j) {
+                    localStorage.setItem("s" + j, "-10px");
+                    skins[m].style.top = localStorage.getItem("s" + j);
+                } else {
+                    localStorage.setItem("s" + j, "");
+                    skins[j].style.top = localStorage.getItem("s" + j);
+                }
+            }
+
+            //添加提示
+            for (var j = 0; j < lis.length; j++) {
+                if (j == m) {
+                    localStorage.setItem("l" + j, "0.9");
+                    lis[m].style.opacity = localStorage.getItem("l" + j);
+                } else {
+                    localStorage.setItem("l" + j, "0");
+                    lis[j].style.opacity = localStorage.getItem("l" + j);
+                }
+            }
+            text1.style.backgroundColor = skins[m].style.backgroundColor;
+            localStorage.setItem("bgc", skins[m].style.backgroundColor);
+            text1.style.backgroundColor = localStorage.getItem('bgc');
+        }
+    }
+    for (var i = 0; i < skins.length; i++) {
+        changeColor(i);
+    }
+</script>
+
+</html>
